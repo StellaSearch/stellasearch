@@ -13,3 +13,10 @@ node_modules/
 # python
 .env.*
 *.pyc
+
+# vscode
+.vscode/
+
+# backend
+backend/data/*
+!backend/data/stars.parquet
