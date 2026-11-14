@@ -17,6 +17,7 @@ export default function App() {
       <header className={place ? 'top' : 'centered'}>
         <div className="controls">
           <label className="field">
+            <span className="field-label">Location</span>
             <PlaceSearch onPick={setPlace} />
           </label>
           <label className="field">
