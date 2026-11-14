@@ -3,8 +3,12 @@ import type { Result } from '../types'
 const dir = (az: number) =>
 	['N','NE','E','SE','S','SW','W','NW'][Math.round(az / 45) % 8]
 
-const fmtTime = (iso: string) =>
-  new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit'})
+const fmtTime = (t: string) => {
+  const [h, m] = t.split(':').map(Number)
+  if (Number.isNaN(h) || Number.isNaN(m)) return t
+  const ampm = h >= 12 ? 'PM' : 'AM'
+  return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${ampm}`
+}
 
 export default function Results({ items }: { items: Result[] }) {
   if (items.length === 0) return <p>No constellations found...</p>
