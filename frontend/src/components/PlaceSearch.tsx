@@ -8,6 +8,7 @@ export function PlaceSearch({ onPick }: { onPick: (p: Place) => void }) {
   const [open, setOpen] = useState(false)
   const short = q.trim().length < 2
   const skipNext = useRef(false)
+  const root = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (short) return
@@ -21,6 +22,22 @@ export function PlaceSearch({ onPick }: { onPick: (p: Place) => void }) {
     return () => { clearTimeout(t); ctrl.abort() }
   }, [q, short])
 
+  useEffect(() => {
+    if (!open) return
+    const down = (e: PointerEvent) => {
+      if (!root.current?.contains(e.target as Node)) setOpen(false) 
+    }
+
+    const key = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) } 
+    document.addEventListener('pointerdown', down)
+    document.addEventListener('keydown', key)
+    return () => {
+      document.removeEventListener('pointerdown', down)
+      document.removeEventListener('keydown', key)
+    }
+
+  }, [open])
+
   function pick(p: Place) {
     skipNext.current = true
     setQ(p.name)
@@ -30,7 +47,7 @@ export function PlaceSearch({ onPick }: { onPick: (p: Place) => void }) {
   const shown = short ? [] : opts
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div ref={root} style={{ position: 'relative' }}>
       <input
         value={q}
         onChange={e => setQ(e.target.value)}
