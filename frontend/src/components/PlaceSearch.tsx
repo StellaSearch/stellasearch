@@ -35,7 +35,7 @@ export function PlaceSearch({ onPick }: { onPick: (p: Place) => void }) {
         value={q}
         onChange={e => setQ(e.target.value)}
         onFocus={() => shown.length && setOpen(true)}
-        placeholder="where are you looking up from?"
+        placeholder="enter location"
       />
       {open && shown.length > 0 && (
         <ul style={{ position: 'absolute', margin: 0, padding: 0, listStyle: 'none', background: '#fff', color: '#000', zIndex: 10 }}>
