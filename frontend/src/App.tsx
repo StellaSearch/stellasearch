@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useSky } from './hooks/useSky'
-import Results from './components/Results'
+import Results, { ResultsSkeleton } from './components/Results'
 import { PlaceSearch } from './components/PlaceSearch'
+import { Starfield } from './components/Starfield'
 import type { Place } from './types'
 
 const today = () => new Date().toLocaleDateString('en-CA')
@@ -11,25 +12,37 @@ export default function App() {
   const [date, setDate] = useState(today)
   const { data, isLoading, error } = useSky(place, date)
 
-  return (
-    <main>
-      <h1>StellaSearch</h1>
-      <header className={place ? 'top' : 'centered'}>
-        <div className="controls">
-          <label className="field">
-            <span className="field-label">Location</span>
-            <PlaceSearch onPick={setPlace} />
-          </label>
-          <label className="field">
-            <span className="field-label">Date</span>
-            <input type="date" value={date} onChange={e => setDate(e.target.value)} />
-          </label>
-        </div>
-      </header>
+  const pickPlace = (p: Place) => {
+      setPlace(p)
+  }
 
-      {isLoading && <p>loading...</p>}
-      {error && <p>error: {String(error)}</p>}
-      {place && !isLoading && !error && <Results items={data ?? []} />}
-    </main>
+  return (
+    <>
+      <Starfield />
+      <main>
+        <h1>StellaSearch</h1>
+        <header className={place ? 'top' : 'centered'}>
+          <div className="controls">
+            <label className="field">
+              <span className="field-label">Location</span>
+              <PlaceSearch onPick={pickPlace} />
+            </label>
+            <label className="field">
+              <span className="field-label">Date</span>
+              {}
+              <input 
+              type="date" 
+              value={date} 
+              onChange={e => e.target.value && setDate(e.target.value)} />
+            </label>
+          </div>
+        </header>
+        {}
+
+        {place && isLoading && <ResultsSkeleton />}
+        {error && <p>error: {String(error)}</p>}
+        {place && !isLoading && !error && <Results items={data ?? []} />}
+      </main>
+    </>
   )
 }
