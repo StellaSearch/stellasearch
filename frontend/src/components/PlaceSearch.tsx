@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { geocode } from '../api/geocode'
 import type { Place } from '../types'
 
@@ -7,9 +7,11 @@ export function PlaceSearch({ onPick }: { onPick: (p: Place) => void }) {
   const [opts, setOpts] = useState<Place[]>([])
   const [open, setOpen] = useState(false)
   const short = q.trim().length < 2
+  const skipNext = useRef(false)
 
   useEffect(() => {
     if (short) return
+    if(skipNext.current){skipNext.current = false;return}
     const ctrl = new AbortController()
     const t = setTimeout(() => {
       geocode(q, ctrl.signal)
@@ -20,6 +22,7 @@ export function PlaceSearch({ onPick }: { onPick: (p: Place) => void }) {
   }, [q, short])
 
   function pick(p: Place) {
+    skipNext.current = true
     setQ(p.name)
     setOpen(false)
     onPick(p)
