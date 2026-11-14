@@ -1,7 +1,13 @@
-import type { Place, Result } from '../types'
+import type { SkyQuery, Result } from '../types'
 
-export async function fetchSky(p: Place, date: string): Promise<Result[]> {
-  const r = await fetch(`/api/sky?lat=${p.lat}&lon=${p.lon}&date=${date}`)
-  if (!r.ok) throw new Error(`sky ${r.status}`)
-  return r.json()
+export async function fetchSky({ place, date }: SkyQuery): Promise<Result[]>{
+  const qs = new URLSearchParams({
+    lat: String(place.lat),
+    lon: String(place.lon),
+    date,
+    tz: place.tz,
+  })
+  const res = await fetch(`/api/sky?${qs}`)
+  if (!res.ok) throw new Error(`sky ${res.status}`)
+  return res.json()
 }

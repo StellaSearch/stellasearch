@@ -1,16 +1,25 @@
-.PHONY: all install dev api web
+.PHONY: data backend frontend dev serve-backend serve-frontend clean distclean
 
-all: install dev
+data:
+	$(MAKE) -C backend all
 
-install:
-	cd backend && uv sync
-	cd frontend && npm install
+backend: data
+	$(MAKE) -C backend run
 
-dev:
-	$(MAKE) -j2 api web
-
-api:
-	cd backend && uv run uvicorn main:app --reload
-
-web:
+frontend:
 	cd frontend && npm run dev
+
+dev: data
+	$(MAKE) -j2 serve-backend serve-frontend
+
+serve-backend:
+	$(MAKE) -C backend run
+
+serve-frontend:
+	cd frontend && npm run dev
+
+clean:
+	$(MAKE) -C backend clean
+
+distclean:
+	$(MAKE) -C backend distclean

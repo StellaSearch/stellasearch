@@ -1,31 +1,43 @@
-from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from datetime import date as Date
+from pathlib import Path
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+import pandas as pd
+from fastapi import FastAPI, HTTPException, Query, Request
+from skyfield.api import Loader, Star
 
-app = FastAPI()
+from scoring import score_night
+
+DATA = Path(__file__).resolve().parent / "data"
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    load = Loader(str(DATA))
+    app.state.ts = load.timescale()
+    app.state.eph = load("de421.bsp")
+    df = pd.read_parquet(DATA / "stars.parquet")
+    app.state.df = df
+    app.state.stars = Star(
+        ra_hours=df["ra_hours"].values,
+        dec_degrees=df["dec_degrees"].values,
+    )
+    print(f"loaded {len(df)} stars")
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 @app.get("/api/sky")
-def sky(lat: float, lon: float, date: str):
-    best_match = [
-            {"name": "Orion", 
-             "score": 9.2,
-             "peak_alt": 52,
-             "azimuth": 135,
-             "best_time": "23:10"},
-            {"name": "Taurus", 
-             "score": 7.8,
-             "peak_alt": 61,
-             "azimuth": 95,
-             "best_time": "21:40"},
-            {"name": "Gemini", 
-             "score": 6.1,
-             "peak_alt": 33,
-             "azimuth": 60,
-             "best_time": "23:10"},
-            {"name": "Corvus", 
-             "score": 5.2,
-             "peak_alt": 21,
-             "azimuth": 91,
-             "best_time": "23:49"},
-            ]
-    
-    return best_match
+def sky(
+    request: Request,
+    lat: float = Query(ge=-90, le=90),
+    lon: float = Query(ge=-180, le=180),
+    date: Date = Query(),
+    tz: str = Query(),
+):
+    try:
+        ZoneInfo(tz)
+    except ZoneInfoNotFoundError:
+        raise HTTPException(422, f"unknown timezone: {tz}")
+    s = request.app.state
+    return score_night(s.ts, s.eph, s.stars, s.df, lat, lon, date, tz)
