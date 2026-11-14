@@ -14,7 +14,7 @@ export default function App() {
   return (
     <main>
       <h1>StellaSearch</h1>
-      <header>
+      <header className={place ? 'top' : 'centered'}>
         <div className="controls">
           <label className="field">
             <PlaceSearch onPick={setPlace} />
