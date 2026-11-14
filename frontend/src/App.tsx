@@ -4,7 +4,7 @@ import Results from './components/Results'
 import { PlaceSearch } from './components/PlaceSearch'
 import type { Place } from './types'
 
-const today = () => new Date().toLocaleString('en-US')
+const today = () => new Date().toLocaleString('en-CA')
 
 export default function App() {
   const [place, setPlace] = useState<Place | null>(null)
