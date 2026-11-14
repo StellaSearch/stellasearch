@@ -6,7 +6,7 @@ install:
 	cd backend && uv sync
 	cd frontend && npm install
 
-dv:
+dev:
 	$(MAKE) -j2 api web
 
 api:
