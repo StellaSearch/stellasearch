@@ -10,6 +10,7 @@ from skyfield.api import Loader, Star
 from scoring import score_night
 
 DATA = Path(__file__).resolve().parent / "data"
+STATIC = Path(__file__).resolve().parent / "static"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -44,4 +45,5 @@ def sky(
 
 from fastapi.staticfiles import StaticFiles
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+if STATIC.is_dir():
+    app.mount("/", StaticFiles(directory="static", html=True), name="static")

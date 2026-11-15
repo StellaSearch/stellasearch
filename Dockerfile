@@ -14,5 +14,5 @@ COPY backend/pyproject.toml backend/uv.lock ./
 RUN uv sync --frozen --no-dev
 COPY backend/ ./
 COPY --from=web /web/dist ./static
-ENV PORT=8080
+ENV PORT=8080 UV_NO_DEV=1
 CMD uv run uvicorn main:app --host 0.0.0.0 --port $PORT

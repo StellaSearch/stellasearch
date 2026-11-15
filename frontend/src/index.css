@@ -42,6 +42,7 @@ body::before {
   to { transform: translate3d(4%, -3%, 0) scale(1.08); }
 }
 
+
 .starfield {
   position: fixed;
   inset: 0;
@@ -94,7 +95,28 @@ header.top {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--border);
 }
-header.top h1 { font-size: 1.75rem; }
+
+.brand { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 0.6rem; 
+  color: var(--gold);
+}
+
+.brand h1 { 
+  margin: 0; 
+  font-size: 1.75rem;
+}
+
+.brand-icon {
+  width: 3.5em;
+  height: 3.5em;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, #fff, var(--accent), #fff);
+  -webkit-mask: url(assets/logo.svg) center / contain no-repeat;
+          mask: url(assets/logo.svg) center / contain no-repeat;
+}
 
 /* ---------- controls ---------- */
 .controls {
