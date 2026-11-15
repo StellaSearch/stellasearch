@@ -20,8 +20,11 @@ export default function App() {
     <>
       <Starfield />
       <main>
-        <h1>StellaSearch</h1>
         <header className={place ? 'top' : 'centered'}>
+          <div className="brand">
+            <span className="brand-icon" aria-hidden />
+            <h1>StellaSearch</h1>
+          </div>
           <div className="controls">
             <label className="field">
               <span className="field-label">Location</span>
