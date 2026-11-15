@@ -1,60 +1,6 @@
-# stella search
+# StellaSearch
 
-search for constellations based on
-
-## layout
-
-- backend/ api server
-- frontent/ web ui
-
-## project setup
-
-requirements:
-- [uv](https://docs.astral.sh/uv/)
-- node 20+
-- git
-
-```
-git clone https://github.com//stellasearch.git
-```
-
-### local 
-
-from project root:
-
-backend (https://localhost:8000):
-
-```
-cd backend
-uv sync
-```
-
-frontend (http://localhost:5173):
-
-```
-cd frontend
-npm install
-```
-
-## run
-from project root: 
-
-### backend
-```
-cd backend
-uv run uvicorn main:app --reload
-```
-
-### frontend
-```
-cd frontend
-npm run dev
-```
-
-### full dev environment
-```
-make dev
-```
+search for best visible constellations based on specified date and location.
 
 ## Data and references
 
@@ -69,4 +15,61 @@ make dev
 ## Scoring Notes
 
 `score` is relative to best constellation per place and night (top score = 10.0). Ranks that night's sky in that single location, not a global scale.
+
+## Layout
+
+- `backend/`  API server
+- `frontend/` Web ui
+
+## Project Setup
+
+requirements:
+- [uv](https://docs.astral.sh/uv/)
+- node 20+
+- git
+- make
+- network connection (to pull astronomical data)
+- flyctl (deployment, optional)
+
+```
+git clone https://github.com//stellasearch.git
+```
+
+### Local Devel
+
+From project root:
+
+#### Backend (uvicorn):
+
+```
+cd backend
+uv sync
+```
+
+#### Frontend (http://localhost:5173):
+
+```
+cd frontend
+npm install
+```
+
+### Run
+From project root: 
+
+#### Backend
+```
+cd backend
+uv run uvicorn main:app --reload
+```
+
+#### frontend
+```
+cd frontend
+npm run dev
+```
+
+#### full dev environment
+```
+make dev
+```
 
