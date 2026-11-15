@@ -4,6 +4,7 @@ import Results, { ResultsSkeleton } from './components/Results'
 import { PlaceSearch } from './components/PlaceSearch'
 import { Starfield } from './components/Starfield'
 import type { Place } from './types'
+import Menu from './components/Menu'
 
 const today = () => new Date().toLocaleDateString('en-CA')
 
@@ -18,6 +19,7 @@ export default function App() {
 
   return (
     <>
+      <Menu />
       <Starfield />
       <main>
         <header className={place ? 'top' : 'centered'}>
