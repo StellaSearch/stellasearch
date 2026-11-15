@@ -1,0 +1,133 @@
+:root {
+  --menu-bg: #0e1424;
+  --menu-fg: #e6e9f2;
+  --menu-dim: #9aa3bd;
+  --menu-line: #263052;
+  --menu-accent: #f2c14e;
+  --menu-t: 0.25s;
+}
+
+.menu-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1300;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+.menu-btn span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--menu-fg);
+  border-radius: 1px;
+  transition: transform var(--menu-t), opacity var(--menu-t);
+}
+
+.menu-btn.is-open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-btn.is-open span:nth-child(2) { opacity: 0; }
+.menu-btn.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.menu-btn:focus-visible,
+.menu-panel a:focus-visible,
+.menu-panel button:focus-visible {
+  outline: 2px solid var(--menu-accent);
+  outline-offset: 2px;
+}
+
+/* dim layer */
+.menu-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(3, 6, 15, 0.65);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--menu-t), visibility 0s var(--menu-t);
+}
+
+.menu-scrim.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--menu-t);
+}
+
+/* slide-in panel */
+.menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1200;
+  width: min(320px, 85vw);
+  padding: 5rem 1.75rem 2rem;
+  background: var(--menu-bg);
+  color: var(--menu-fg);
+  border-left: 1px solid var(--menu-line);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform var(--menu-t), visibility 0s var(--menu-t);
+}
+
+.menu-panel.is-open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform var(--menu-t);
+}
+
+.menu-panel ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-panel li {
+  border-bottom: 1px solid var(--menu-line);
+}
+
+.menu-panel a,
+.menu-panel li > button {
+  display: block;
+  width: 100%;
+  padding: 1rem 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  font-size: 1.15rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-panel a:hover,
+.menu-panel li > button:hover {
+  color: var(--menu-accent);
+}
+
+.menu-panel p {
+  margin: 0 0 1rem;
+  color: var(--menu-dim);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-btn span,
+  .menu-scrim,
+  .menu-panel {
+    transition: none;
+  }
+}
