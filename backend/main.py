@@ -41,3 +41,7 @@ def sky(
         raise HTTPException(422, f"unknown timezone: {tz}")
     s = request.app.state
     return score_night(s.ts, s.eph, s.stars, s.df, lat, lon, date, tz)
+
+from fastapi.staticfiles import StaticFiles
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")

@@ -1,4 +1,4 @@
-export type Place = { lat: number; lon: number; name: string, tz: string)
+export type Place = { lat: number; lon: number; name: string, tz: string,}
 
 export type SkyQuery = { place: Place; date: string }
 
