@@ -20,3 +20,5 @@ node_modules/
 # backend
 backend/data/*
 !backend/data/stars.parquet
+
+.fly/
