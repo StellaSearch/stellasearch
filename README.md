@@ -1,6 +1,8 @@
 # stella search
 
-search for constellations based on
+search for constellations based on given location and date.
+
+get a best time, viewing angle, and cardinal direction to face.
 
 ## layout
 
@@ -15,7 +17,7 @@ requirements:
 - git
 
 ```
-git clone https://github.com//stellasearch.git
+git clone https://github.com/StellaSearch/stellasearch.git
 ```
 
 ### local 
